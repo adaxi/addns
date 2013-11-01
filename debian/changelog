@@ -1,0 +1,8 @@
+addns (1.2a-1) unstable; urgency=low
+
+  [ Gerik Bonaert ]
+  * fixes problems with multiple hosts in the same config section
+  * cleans up the help output and the documentation
+  * allows for specification of alternate config file
+
+ -- Gerik Bonaert <dev@adaxisoft.be>  Fri, 01 Nov 2013 14:44:39 +0000

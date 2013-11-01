@@ -1,0 +1,21 @@
+Index: b/Makefile
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ b/Makefile	2013-11-01 14:49:33.399736077 +0000
+@@ -0,0 +1,10 @@
++DESTDIR?=$(INSTALL_PATH)
++export DESTDIR
++
++.PHONY: install
++
++all:
++
++install:
++	install -D addns.pl $(DESTDIR)/usr/bin/addns.pl
++	install -D addns.cron $(DESTDIR)/etc/cron.d/addns.cron
+Index: b/addns.cron
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ b/addns.cron	2013-11-01 14:49:39.975754917 +0000
+@@ -0,0 +1 @@
++0,15,30,45 * * * * /usr/bin/addns.pl

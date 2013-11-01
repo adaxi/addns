@@ -1,0 +1,12 @@
+Source: addns
+Section: net
+Priority: extra
+Maintainer: Gerik Bonaert <dev@adaxisoft.be>
+Build-Depends: debhelper (>= 8.0.0)
+Standards-Version: 3.9.2
+Homepage: http://www.funtaff.com/software/addns.pl
+
+Package: addns
+Architecture: all
+Depends: ${misc:Depends}
+Description: Addns.pl is a fully equipped DynDNS.org updater
