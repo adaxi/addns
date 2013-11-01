@@ -1,0 +1,53 @@
+[main]
+{
+	proxy_host = "localhost"
+	proxy_port = 3128
+	use_proxy = no
+}
+
+# Example for using an interface
+[iface]
+{
+	detect_method = "iface"
+	update_host = test.dyndns.org 
+	iface = "fxp0"
+	username = "test"
+	password = "test"
+	server_port = 80 
+	server_host = members.dyndns.org
+}
+
+# Example for using web based IP detection
+
+#[webcheck]
+#{
+#	update_host = test.dnsalias.net
+#	detect_method = "webcheck"
+#	ip_detect_host = "checkip.dyndns.org"
+#	ip_detect_port = 80
+#	username = "test"
+#	password = "test"
+#}
+
+# Example for using a router
+
+#[router]
+#{
+#	update_host = test.dnsalias.net
+#	detect_method = "webcheck"
+#	ip_detect_host = "192.168.1.1"
+#	ip_detect_port = 80
+#	ip_detect_look = "My Ip Is: "
+#	ip_detect_url = "/interface.html"
+#	username = "test"
+#	password = "test"
+#}
+
+# Change default file locations
+
+#[files]
+#{
+#	cache = /etc/addns.db
+#}
+
+

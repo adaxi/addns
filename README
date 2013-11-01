@@ -1,0 +1,185 @@
+**************
+Addns.pl - 1.2
+by David Hasson <www.funtaff.com>
+**************
+
+Addns.pl is a small utility for updating your ip address to the dyndns.org dynamic dns service.  It has grown over the years, and now supports an unlimited number of host configurations, static/dynamic/custom DNS, logging, intelegent abuse prevention, and all features available to DynDNS hosts.  It aims to be fully compliant with client response standards from DynDNS.org.
+
+Addns.pl is also known to work with other services.  The config file offers very flexible configuration options.
+
+The known working services are www.dyndns.org and the french "ovh" service (see thier website)
+
+**************
+CHANGES:
+**************
+
+1.2: 
+- Fixed multiple hostnames in the same configuration
+- Fixed format of --help option
+- Allows specification of configfile with -c=configfile
+- Configuration allows specification of database and log files:
+
+[files]
+{
+     cache = "/place/where/addns/can/access/cache.db"
+     log = "/place/where/addns/can/access/addns.log"
+
+}
+
+As of 1.0, there is no support for creating a configuration file automatically.  The older versions are still available, however (although DynDNS support of older protocals is not dependable).
+
+- Other changes documented at the software website, or not at all.
+
+**************
+INSTALLATION:
+**************
+
+Addns.pl is designed to be run by any user, however the file locations for its config, host cache, and log default to system-wide locations. Here is an example of how you might set up Addns.pl 
+   -as a system service
+	a) move addns.pl to a directory in the system path
+	   (ie. /usr/local/bin)
+	b) make sure that whoever is going to be running addns.pl can 
+	   access these files:
+		/etc/addns.conf (configuration - read permissions)
+		/etc/addns.db   (hostname/ip cache - read/write)
+		/var/log/addns.log (the log - read/write)
+   -as a user service
+   	a) make configuration at /home/user/.addns.conf
+	b) add cache = "/home/user/.addns.db" to [files] section of config
+	   add log = "/home/user/.addns.log" to ""
+	c) run addns.pl like this:
+		addns.pl -x=/home/user/.addns.conf
+
+Obviously, the easiest way to run addns.pl is as root, but for the security-conscous it maybe advisable to simply change the permissions on the necessary files, or change the file locations in the configuration
+
+**************
+CONFIGURATION:
+**************
+
+/etc/addns.conf has a format with sections and variable = value pairs.  Comments may be preceeded by a "#", and all white-space lines are ignored:
+
+[section]
+{
+	variable = value
+}
+[section2]
+{
+	variable = value
+}
+
+Each section is treated as a update "scheme" it may have one or more hostnames (seperated by commas), an ip detection method, and any other options specific to that set of hosts.
+
+Variables are declared as variable = value, where value may optionally be in quotes (must if there is whitespace)
+
+There are a few "special sections" that get treated as system-wide options.  The "main" section provides system-wide options.  The "daemon" section provides three options for controlling the daemon mode of Addns.pl
+
+[host id]
+{
+	update_host = "hostname1,hostname2"
+	detect_method = "method"
+		# Methods:
+		# manual: ip is specified via "update_ip" in config
+		# iface:  ip is retrieved from interface specified in "iface"
+		# webcheck: get ip from a web page, specified with "ip_detect_" variables
+		#	(if not set, uses checkip.dyndns.org)
+	iface = "iface"
+		# interface from ifconfig to pull ip from
+	username = "username"
+	password = "password"
+		# dyndns credentials
+
+	ip_detect_host = "hostname"
+		# hostname/ip of server to get ip from
+	ip_detect_port = 80
+		# port of server to get ip from
+	ip_detect_look = "string"
+		# this specifies the string to look for that will be directly in front of the ip address.  An example is "Current IP Address:".  This must be almost exact to work correctly (ie html tags and such must be included).
+	ip_detect_url = "/url?stuff"
+		# this specifies the URL to request of the webserver at ip_detect_host.  For example "/status.html" or "/"
+
+	server_host = "hostname"
+		# hostname of dyndns server (for debugging)
+	server_port = 80
+		# port to use when updating - useful for bypassing proxies (www.dyndns.org supports 80 and 8245)
+	system_type = "type"
+		# dyndns, custom, statdns
+	mx_record = "record"
+	back_mx = "no"
+		# no, yes, nochg
+	offline = "no"
+		# no, yes
+}
+
+
+[main]
+{
+	proxy_host = "hostname"
+	proxy_port = 80
+	use_proxy = 0
+		# 0, 1 
+}
+
+[daemon]
+{
+	interval = 600
+		# Interval between updates (non-abusive, of course) in seconds
+}
+
+[files]
+{
+	cache = "/etc/addns.db"
+	log = "/var/log/addns.log"
+}
+
+****************
+RUNNING Addns.pl:
+****************
+
+Addns.pl may be run manually, fron cron, from the dhcp or ppp scripts, or as a daemon to automatically poll ip's every so many seconds.  (Please advise you should not be using checkip.dyndns.org more than once every 10 minutes - 600 seconds)
+
+Daemon mode is available by the -d option.
+
+Manual Mode: the user can specify  a configuration label to use "-x=label", or if the label is omitted, the host can be updated entirely from command line arguments
+
+Examples:
+
+host# addns.pl -H=my.host.com -u=test -p=test -mx=10.1.2.1 -s=custom -m=iface -n=eth0
+host# addns.pl -H=my.host.com,my.otherhost.com -u=test -p=test -mx=10.1.2.1 -s=custom  -m=iface -n=eth0
+host# addns.pl --host=my.host.com --username=test --password=test --system=custom --method=iface --interface=eth0
+host# addns.pl -x=label --offline=yes
+host# addns.pl -x=label -l=88.25.33.1
+host# addns.pl -c=/my/addns.conf 
+
+Otherwise, addns.pl will attempt to read from the configuration file and update all hosts  This is more usefule for triggered, daemon, and cron updates:
+
+host# addns.pl
+
+*********
+MULTIPLE ACCOUNTS / HOSTNAMES
+*********
+
+The cleanest way to do more than one account or hostname is to add sections in the config file.  
+
+However, should you want to update more than one host on the same account with the same IP, you can specify the hostnames(s) seperated by commas like this: "hostname.ath.cx,hostname.mine.nu".  If the hosts are in sync, this will work fine, however, should one fail the IP *will not* be updated in the cache (perhaps I can fix this later), and the daemon will quit altogether.
+
+This method is fairly safe, but it could potentially cause abuse problems when one is initially setting up addns.pl and possibly making mistakes in the configuration file.
+
+*********
+BUGS:
+*********
+
+Please e-mail me with any problems at <devel@funtaff.com>.  The most common problems are ifconfig parsing issues (I only have english versions of ifconfig), but since 1.01b is pretty much a complete rewrite, I welcome all feedback
+
+*********
+TODO:
+*********
+
+Add ability to e-mail user when changes / problems occur
+Reasearch other account services and add sample configurations
+
+
+*********
+COPYING:
+*********
+
+Addns.pl is licensed under the GPL License.  (c) 1999-2004 David Hasson.
