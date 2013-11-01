@@ -1,8 +1,8 @@
 Index: b/Makefile
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ b/Makefile	2013-11-01 14:49:33.399736077 +0000
-@@ -0,0 +1,10 @@
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,11 @@
 +DESTDIR?=$(INSTALL_PATH)
 +export DESTDIR
 +
@@ -13,9 +13,10 @@ Index: b/Makefile
 +install:
 +	install -D addns.pl $(DESTDIR)/usr/bin/addns.pl
 +	install -D addns.cron $(DESTDIR)/etc/cron.d/addns.cron
++	install -D addns.conf.sample $(DESTDIR)/usr/share/doc/sudo/examples/addns.conf.sample
 Index: b/addns.cron
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ b/addns.cron	2013-11-01 14:49:39.975754917 +0000
+--- /dev/null
++++ b/addns.cron
 @@ -0,0 +1 @@
 +0,15,30,45 * * * * /usr/bin/addns.pl
