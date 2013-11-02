@@ -9,4 +9,7 @@ Homepage: http://www.funtaff.com/software/addns.pl
 Package: addns
 Architecture: all
 Depends: ${misc:Depends}
-Description: Addns.pl is a fully equipped DynDNS.org updater
+Description: Provides a fully equipped DynDNS.org updater
+ This software allows to send your IP address to a DynDNS
+ provider to keep the hostname up to date with its current 
+ IP address.
