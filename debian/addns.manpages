@@ -1,6 +1,4 @@
-.\" Manpage for addns.
-.\" Contact dev@adaxisoft.be to correct errors or typos.
-.TH addns 1 "06 Nov 2013" "1.0" "addns man page"
+.TH "addns" "1" "06 Nov 2013" "1.0" "addns man page"
 .SH NAME
 addns \- update your DynDNS record
 .SH SYNOPSIS
