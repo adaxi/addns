@@ -1,0 +1,3 @@
+addns.pl usr/bin/addns
+addns.cron usr/share/doc/addns/examples/addns.cron.sample
+addns.conf.sample usr/share/doc/addns/examples/addns.conf.sample
