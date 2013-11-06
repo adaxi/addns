@@ -1,3 +1,9 @@
+addns (1.2a-1.1) unstable; urgency=low
+
+  * improved package to limit lintian errors 
+
+ -- Gerik Bonaert <dev@adaxisoft.be>  Wed, 06 Nov 2013 19:06:41 +0000
+
 addns (1.2a-1) unstable; urgency=low
 
   [ Gerik Bonaert ]
