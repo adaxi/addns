@@ -3,7 +3,7 @@ Index: b/addns.cron
 --- /dev/null
 +++ b/addns.cron
 @@ -0,0 +1 @@
-+0,15,30,45 * * * * /usr/bin/addns.pl
++0,15,30,45 * * * * /usr/bin/addns
 Index: b/Makefile
 ===================================================================
 --- /dev/null
