@@ -1,5 +1,4 @@
 #!/usr/bin/perl
-
 use Debconf::Client::ConfModule ':all';
 
 my @params = (
@@ -36,5 +35,7 @@ print FILE qq@
         cache = /etc/addns.db
 }
 @;
+
+#DEBHELPER#
 
 1;

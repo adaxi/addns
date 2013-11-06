@@ -4,3 +4,19 @@ Index: b/addns.cron
 +++ b/addns.cron
 @@ -0,0 +1 @@
 +0,15,30,45 * * * * /usr/bin/addns.pl
+Index: b/Makefile
+===================================================================
+--- /dev/null
++++ b/Makefile
+@@ -0,0 +1,11 @@
++DESTDIR?=$(INSTALL_PATH)
++export DESTDIR
++
++.PHONY: install
++
++all:
++
++install:
++	install -D addns.pl $(DESTDIR)/usr/bin/addns
++	install -D addns.cron $(DESTDIR)/usr/share/doc/addns/examples/addns.cron.sample
++	install -D addns.conf.sample $(DESTDIR)/usr/share/doc/addns/examples/addns.conf.sample
